@@ -4,13 +4,18 @@ class ForecastDailyComponent < ViewComponent::Base
   end
 
   def icon_for(description)
-    icons = {
-      "Rain" => "https://img.icons8.com/color-glass/42/000000/rain.png",
-      "Cloud" => "https://img.icons8.com/color-glass/42/000000/cloud.png",
-      "Partly cloudy" => "https://img.icons8.com/color-glass/42/000000/partly-cloudy-day.png",
-      "Sunny" => "https://img.icons8.com/color-glass/42/000000/sun.png",
-      "Wind" => "https://img.icons8.com/color-glass/42/000000/wind.png"
-    }
-    icons[description] || "https://img.icons8.com/color-glass/42/000000/partly-cloudy-day.png"
+    icons = [
+      [ /rain|shower|thunderstorm/i, "https://img.icons8.com/color-glass/42/000000/rain.png" ],
+      [ /partly/i,                  "https://img.icons8.com/color-glass/42/000000/partly-cloudy-day.png" ],
+      [ /cloud|overcast/i,          "https://img.icons8.com/color-glass/42/000000/cloud.png" ],
+      [ /sun|clear/i,               "https://img.icons8.com/color-glass/42/000000/sun.png" ],
+      [ /wind/i,                    "https://img.icons8.com/color-glass/42/000000/wind.png" ]
+    ]
+
+  icons.each do |pattern, icon|
+    return icon if description =~ pattern
+  end
+
+  "https://img.icons8.com/color-glass/42/000000/partly-cloudy-day.png"
   end
 end

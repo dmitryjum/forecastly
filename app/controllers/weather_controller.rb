@@ -1,10 +1,8 @@
 class WeatherController < ApplicationController
   def index
-    # Initial empty page
   end
 
   def search
-    address = params[:city]
     result = WeatherFetcher.new(params[:city]).call
 
     if result[:error]

@@ -1,6 +1,5 @@
-# app/models/weather_fetcher.rb
 class WeatherFetcher
-  require 'httparty'
+  require "httparty"
 
   def initialize(address)
     @address = address
@@ -8,77 +7,54 @@ class WeatherFetcher
 
   def call
     coords = Geocoder.search(@address)&.first&.coordinates
-    query = coords ? coords.join(',') : @address
+    return { error: "Could not geocode address: #{@address}" } unless coords
+    lat, lon = coords
+    point_response = HTTParty.get("https://api.weather.gov/points/#{lat},#{lon}", headers: headers)
+    parsed_response = JSON.parse(point_response)
+    return { error: "Unable to provide forecast for your location. Make sure it's in the USA" } unless point_response.success?
+    forecast_url = parsed_response.dig("properties", "forecast")
+    hourly_url = parsed_response.dig("properties", "forecastHourly")
+    return { error: "Forecast URLs not found within api.weather.gov." } unless forecast_url && hourly_url
 
-    response = HTTParty.get("http://api.weatherstack.com/current", query: {
-      access_key: ENV['WEATHERSTACK_API'],
-      query: query,
-      forecast_days: 5
-    })
-    if response.success? && response["location"]
-      {
-        city: response["location"]["name"],
-        current: build_current_forecast(response),
-        daily: mock_daily_forecast
-      }
-    else
-      { error: "Could not fetch weather for #{@address}" }
-    end
+    forecast_response = JSON.parse(HTTParty.get(forecast_url, headers: headers).body)
+    hourly_response = JSON.parse(HTTParty.get(hourly_url, headers: headers).body)
+    return { error: "Failed to retrieve forecast data. Try different location or try again later" } unless forecast_response && hourly_response
+    {
+      city: @address,
+      current: build_current_forecast(hourly_response),
+      daily: build_daily_forecast(forecast_response)
+    }
   end
 
   private
 
-  def build_current_forecast(api_response)
+  def headers
     {
-      temp: api_response["current"]["temperature"],
-      weekday: Date.parse(api_response["location"]["localtime"]).strftime("%A"),
-      description: api_response["current"]["weather_descriptions"].join(", "),
-      humidity: "#{api_response["current"]["humidity"]}",
-      wind: "#{api_response["current"]["wind_speed"]} km/h"
+      "User-Agent" => ENV["WEATHER_GOV_USER_AGENT"] || "Forecastly, (test@example.com)"
     }
   end
 
-  def build_daily_forecast(api_response)
-    days = []
-    forecast_hash = api_response["forecast"] || {}
-    forecast_hash.first(5).each do |date, data|
-      next unless data
-      days << {
-        name: Date.parse(date).strftime("%a"),
-        description: data["weather_descriptions"].first,
-        temp: data["avgtemp"] || data["temperature"] || data["mintemp"]
-      }
-    end
-    days
+  def build_current_forecast(response)
+    period = response.dig("properties", "periods")&.first
+    return {} unless period
+    {
+      temp: period["temperature"],
+      weekday: Date.parse(period["startTime"]).strftime("%A"),
+      description: period["shortForecast"],
+      humidity: period["relativeHumidity"]["value"],
+      wind: period["windSpeed"]
+    }
   end
 
-  def mock_daily_forecast
-      [
-        {
-          name: "Fri",
-          description: "Rain",
-          temp: 2
-        },
-        {
-          name: "Sat",
-          description: "Cloudy",
-          temp: 4
-        },
-        {
-          name: "Sun",
-          description: "Partly cloudy",
-          temp: 6
-        },
-        {
-          name: "Mon",
-          description: "Sunny",
-          temp: 8
-        },
-        {
-          name: "Tues",
-          description: "Windy",
-          temp: 5
-        }
-      ]
+  def build_daily_forecast(response)
+    periods = response.dig("properties", "periods")
+    return [] unless periods
+    periods.select { |p| p["isDaytime"] }.first(5).map do |day|
+      {
+        name: Date.parse(day["startTime"]).strftime("%a"),
+        description: day["shortForecast"],
+        temp: day["temperature"]
+      }
     end
+  end
 end
