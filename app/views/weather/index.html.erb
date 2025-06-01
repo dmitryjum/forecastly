@@ -6,6 +6,10 @@
       <% if @current_forecast %>
         <%= render ForecastCurrentComponent.new(current: @current_forecast) %>
         <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
+      <% elsif @error %>
+        <div class="text-center text-gray-400 py-12 italic text-lg">
+          <%= @error %>
+        </div>
       <% else %>
         <div class="text-center text-gray-400 py-12 italic text-lg">
           Enter a city to get the current weather and forecast!

@@ -9,7 +9,7 @@ class WeatherController < ApplicationController
       @city = params[:city]
       @current_forecast = nil
       @daily_forecast = nil
-      flash.now[:alert] = result[:error]
+      @error = result[:error]
     else
       @city = result[:city]
       @current_forecast = result[:current]
