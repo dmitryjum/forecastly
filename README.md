@@ -37,37 +37,36 @@ Forecastly is a modern Rails 8 application that provides weather forecasts for U
     ```sh
     bundle install
 
-3. **Set up environment variables
+3. **Set up environment variables**
   Create a .env file (or set in your shell) for any secrets. For weather.gov API, you can set a user agent:
-  ```sh
-  WEATHER_GOV_USER_AGENT="Forecastly, (your-email@example.com)"
+    ```sh
+    WEATHER_GOV_USER_AGENT="Forecastly, (your-email@example.com)"
 
 4. Set up the databases
-  Edit config/database.yml if needed for your local PostgreSQL credentials
-  ```sh
-  bin/rails db:create
-  bin/rails db:migrate
+    ```sh
+    bin/rails db:create
+    bin/rails db:migrate
 
 5. Install and migrate Solid Cache
   Solid Cache uses a separate database for caching. The default config uses forecastly_cache
 
 6. Start the Rails server
-  ```sh
-  bin/dev or rails s
+    ```sh
+    bin/dev or rails s
 
-  Visit http://localhost:3000 in your browser.
+    Visit http://localhost:3000 in your browser.
 
   ---
 ## Running the Test Suit
 1. Prepare the test database
-  ```sh
-  bin/rails db:test:prepare
-  bin/rails db:create
-  bin/rails db:migrate
+    ```sh
+    bin/rails db:test:prepare
+    bin/rails db:create
+    bin/rails db:migrate
 
 2. Run Rspec
-  ```sh
-  rspec
+    ```sh
+    rspec
 
 ---
 
