@@ -1,5 +1,5 @@
 class SearchFormComponent < ViewComponent::Base
-  def initialize(city:)
-    @city = city
+  def initialize(address:)
+    @address = address
   end
 end
