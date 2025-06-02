@@ -22,7 +22,6 @@ RSpec.describe "WeatherController", type: :request do
 
     expect(response.body).to include("Enter a city in US to get the current weather and forecast!")
     expect(response.body).to include("Search")
-    # Optionally: check for Turbo Frame presence
     expect(response.body).to include('turbo-frame')
   end
 

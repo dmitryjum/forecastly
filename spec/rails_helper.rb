@@ -11,6 +11,7 @@ require 'rspec/rails'
 require 'webmock/rspec'
 require "pry"
 require "capybara/rails"
+require "view_component/test_helpers"
 WebMock.disable_net_connect!(allow_localhost: true)
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -44,6 +45,8 @@ RSpec.configure do |config|
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
+
+  config.include ViewComponent::TestHelpers, type: :component
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
