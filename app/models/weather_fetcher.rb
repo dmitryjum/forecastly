@@ -6,8 +6,8 @@ class WeatherFetcher
   end
 
   def call
-    coords = Geocoder.search(@address)&.first&.coordinates
-    return { error: "Could not geocode address: #{@address}" } unless coords
+    coords = safe_geocode(@address)
+    return { error: "Could not geocode address: #{@address}. Try again later." } unless coords
     lat, lon = coords
     point_response = HTTParty.get("https://api.weather.gov/points/#{lat},#{lon}", headers: headers)
     parsed_response = JSON.parse(point_response)
@@ -30,6 +30,12 @@ class WeatherFetcher
   end
 
   private
+
+  def safe_geocode(address)
+    Geocoder.search(address)&.first&.coordinates
+  rescue StandardError
+    nil
+  end
 
   def headers
     {

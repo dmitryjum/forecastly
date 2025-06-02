@@ -89,6 +89,12 @@ RSpec.describe WeatherFetcher do
     expect(result[:error]).to match(/Could not geocode address/)
   end
 
+  it "returns an error if Geocoder raises an exception" do
+    allow(Geocoder).to receive(:search).with(address).and_raise(StandardError)
+    result = WeatherFetcher.new(address).call
+    expect(result[:error]).to match(/Could not geocode address/)
+  end
+
   it "returns an error if API response is missing forecast URLs" do
     stub_request(:get, %r{https://api.weather.gov/points/.*})
       .to_return(status: 200, body: { properties: {} }.to_json)
