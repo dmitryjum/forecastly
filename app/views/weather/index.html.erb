@@ -1,20 +1,18 @@
 <div class="container min-h-screen flex flex-col items-center">
   <div class="w-full max-w-4xl mx-auto pt-8">
     <%= render SearchFormComponent.new(address: params[:address]) %>
-
-    <%= turbo_frame_tag "forecast" do %>
-      <% if @current_forecast %>
-        <%= render ForecastCurrentComponent.new(current: @current_forecast, from_cache: @from_cache) %>
-        <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
-      <% elsif @error %>
-        <div class="text-center text-gray-400 py-12 italic text-lg">
-          <%= @error %>
+    <div data-controller="loading">
+      <div data-loading-target="spinner" class="hidden">
+        <div class="flex justify-center items-center py-12">
+          <div class="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent mr-2"></div>
+          <span class="text-black-600 text-lg font-semibold">Loading forecast…</span>
         </div>
-      <% else %>
+      </div>
+      <%= turbo_frame_tag "forecast", data: { "loading-target": "forecast" } do %>
         <div class="text-center text-gray-400 py-12 italic text-lg">
           Enter a city in US to get the current weather and forecast!
         </div>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </div>
