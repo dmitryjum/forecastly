@@ -33,6 +33,9 @@ production:
   cable:
     <<: *primary_production
     database: forecastly_cable
+  queue:
+    <<: *primary_production
+    database: forecastly_queue
 
 
 # Store production database in the storage/ directory, which by default
