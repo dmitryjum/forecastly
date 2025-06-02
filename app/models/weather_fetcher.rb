@@ -17,13 +17,15 @@ class WeatherFetcher
     hourly_url = parsed_response.dig("properties", "forecastHourly")
     return { error: "Forecast URLs not found within api.weather.gov." } unless forecast_url && hourly_url
 
-    forecast_response = JSON.parse(HTTParty.get(forecast_url, headers: headers).body)
-    hourly_response = JSON.parse(HTTParty.get(hourly_url, headers: headers).body)
-    return { error: "Failed to retrieve forecast data. Try different location or try again later" } unless forecast_response && hourly_response
+    forecast_response = HTTParty.get(forecast_url, headers: headers)
+    hourly_response = HTTParty.get(hourly_url, headers: headers)
+    return { error: "Failed to retrieve forecast data. Try different location or try again later" } unless forecast_response.success? && hourly_response.success?
+    parsed_forecast = JSON.parse(forecast_response.body)
+    parsed_hourly = JSON.parse(hourly_response.body)
     {
       city: @address,
-      current: build_current_forecast(hourly_response),
-      daily: build_daily_forecast(forecast_response)
+      current: build_current_forecast(parsed_hourly),
+      daily: build_daily_forecast(parsed_forecast)
     }
   end
 
