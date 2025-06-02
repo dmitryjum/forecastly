@@ -22,10 +22,7 @@ test:
 
 production:
   primary: &primary_production
-    <<: *default
     database: forecastly_production
-    username: <%= ENV["PGUSER"] %>
-    password: <%= ENV["PGPASSWORD"] %>
   cache:
     <<: *primary_production
     database: forecastly_cache
