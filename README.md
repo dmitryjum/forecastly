@@ -1,6 +1,6 @@
 # Forecastly
 
-Forecastly is a modern Rails 8 application that provides weather forecasts for US cities. It features a clean, mobile-friendly UI, fast responses via caching, and a modular, object-oriented codebase.
+Forecastly is a modern Rails 8 application that provides weather forecasts for US cities. It features a clean, mobile-friendly UI, fast responses via caching, and a modular, object-oriented codebase. The app is currently **deployed** to: https://forecastly-f42b147e3fc1.herokuapp.com/
 
 ---
 
@@ -22,8 +22,6 @@ Forecastly is a modern Rails 8 application that provides weather forecasts for U
 - Ruby 3.3+
 - Rails 8+
 - PostgreSQL
-- Node.js (for JS/CSS builds)
-- [Chrome](https://www.google.com/chrome/) (for system tests)
 
 ### Setup Steps
 
@@ -87,6 +85,7 @@ The `WeatherFetcher` class encapsulates all logic for retrieving and parsing wea
 * **Testability:** The class is easily stubbed/mocked in tests.
 * **Extensibility:** If you want to swap APIs or add more data, you only need to update this class.
 * **Caching:** The controller caches the result of `WeatherFetcher#call` using Solid Cache for performance.
+* **Geocoder setup:** Geocoder is cached using Rails Solid Cache and it's timeout set for 20 seconds for resilience
 
 ---
 
