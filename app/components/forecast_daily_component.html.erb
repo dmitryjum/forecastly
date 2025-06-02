@@ -1,9 +1,9 @@
-<div class="flex justify-between items-center border-t border-gray-300 pt-6 mt-6">
+<div class="flex flex-col sm:flex-row justify-between items-stretch border-t border-gray-300 pt-6 mt-6 gap-y-8">
   <% @days.each do |day| %>
-    <div class="text-center flex-1 mx-2">
+    <div class="text-center flex-1 mx-2 mb-4 sm:mb-0">
       <div class="text-md font-semibold"><%= day[:name] %></div>
       <div class="mx-auto mb-1 mt-1">
-        <%= image_tag icon_for(day[:description]), class: "inline h-8" if day[:description] %>
+        <%= image_tag icon_for(day[:description]), class: "inline h-16 w-16" if day[:description] %>
       </div>
       <div class="text-gray-700 text-sm"><%= day[:description] %></div>
       <div class="mt-2 text-xl font-bold"><%= day[:temp] %>°</div>

@@ -1,5 +1,8 @@
 <div class="container min-h-screen flex flex-col items-center">
   <div class="w-full max-w-4xl mx-auto pt-8">
+    <header class="mb-8 w-full flex justify-center">
+      <h1 class="text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow-sm">Forecastly</h1>
+    </header>
     <%= render SearchFormComponent.new(address: params[:address]) %>
     <div data-controller="loading">
       <div data-loading-target="spinner" class="hidden">
