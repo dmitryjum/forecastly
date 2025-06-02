@@ -11,6 +11,7 @@ class WeatherFetcher
     lat, lon = coords
     point_response = HTTParty.get("https://api.weather.gov/points/#{lat},#{lon}", headers: headers)
     parsed_response = JSON.parse(point_response)
+
     return { error: "Unable to provide forecast for your location. Make sure it's in the USA" } unless point_response.success?
     forecast_url = parsed_response.dig("properties", "forecast")
     hourly_url = parsed_response.dig("properties", "forecastHourly")
