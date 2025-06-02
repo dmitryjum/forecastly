@@ -20,12 +20,7 @@ test:
   password: password
 
 production:
-  primary: &primary_production
-    username: postgres
-    encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    url: <%= ENV['DATABASE_URL'] %>
-    database: forecastly_production
+  url: <%= ENV['DATABASE_URL'] %>
   # cache:
   #   <<: *primary_production
   #   database: forecastly_cache
