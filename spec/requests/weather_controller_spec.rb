@@ -19,7 +19,7 @@ RSpec.describe "WeatherController", type: :request do
 
   it "renders the index with search form and placeholder" do
     get weather_index_path
-
+    expect(response.body).to include(weather_search_path)
     expect(response.body).to include("Enter a city in US to get the current weather and forecast!")
     expect(response.body).to include("Search")
     expect(response.body).to include('turbo-frame')
