@@ -17,6 +17,15 @@ RSpec.describe "WeatherController", type: :request do
     Rails.cache.clear
   end
 
+  it "renders the index with search form and placeholder" do
+    get weather_index_path
+
+    expect(response.body).to include("Enter a city in US to get the current weather and forecast!")
+    expect(response.body).to include("Search")
+    # Optionally: check for Turbo Frame presence
+    expect(response.body).to include('turbo-frame')
+  end
+
   it "returns a 200 response and assigns forecasts for a valid address" do
     allow(WeatherFetcher).to receive(:new).with(anything).and_return(double(call: fetcher_result))
 
