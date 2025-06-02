@@ -11,14 +11,13 @@ development:
     database: forecastly_development
   cache:
     <<: *primary_development
-    database: forecastly_cache
-    migrations_paths: db/cache_migrate
+    database: forecastly_development
 
 test:
   <<: *default
   database: forecastly_test
   username: postgres
-  # password: password
+  password: password
 
 production:
   primary: &primary_production
