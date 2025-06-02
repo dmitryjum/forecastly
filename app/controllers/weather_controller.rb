@@ -24,10 +24,5 @@ class WeatherController < ApplicationController
       @current_forecast = result[:current]
       @daily_forecast = result[:daily]
     end
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { render :index }
-    end
   end
 end
