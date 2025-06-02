@@ -5,7 +5,6 @@ class WeatherController < ApplicationController
 
     cached_result = Rails.cache.read(cache_key)
     @from_cache = false
-
     if cached_result
       result = cached_result
       @from_cache = true

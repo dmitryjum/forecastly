@@ -17,6 +17,8 @@ development:
 test:
   <<: *default
   database: forecastly_test
+  username: postgres
+  password: password
 
 production:
   primary: &primary_production
