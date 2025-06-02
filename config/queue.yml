@@ -10,9 +10,12 @@ default: &default
 
 development:
   <<: *default
+  database: forecastly_development
 
 test:
   <<: *default
+  database: forecastly_test
 
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
