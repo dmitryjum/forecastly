@@ -1,9 +1,18 @@
 class WeatherController < ApplicationController
-  def index
-  end
-
   def search
-    result = WeatherFetcher.new(params[:city]).call
+    address = params[:address]
+    cache_key = "weather-fetcher-#{address.parameterize}"
+
+    cached_result = Rails.cache.read(cache_key)
+    @from_cache = false
+
+    if cached_result
+      result = cached_result
+      @from_cache = true
+    else
+      result = WeatherFetcher.new(address).call
+      Rails.cache.write(cache_key, result, expires_in: 30.minutes) unless result[:error]
+    end
 
     if result[:error]
       @city = params[:city]
@@ -15,6 +24,7 @@ class WeatherController < ApplicationController
       @current_forecast = result[:current]
       @daily_forecast = result[:daily]
     end
+
     respond_to do |format|
       format.turbo_stream
       format.html { render :index }

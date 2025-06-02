@@ -1,10 +1,10 @@
 <div class="container min-h-screen flex flex-col items-center">
   <div class="w-full max-w-4xl mx-auto pt-8">
-    <%= render SearchFormComponent.new(city: params[:city]) %>
+    <%= render SearchFormComponent.new(address: params[:address]) %>
 
     <%= turbo_frame_tag "forecast" do %>
       <% if @current_forecast %>
-        <%= render ForecastCurrentComponent.new(current: @current_forecast) %>
+        <%= render ForecastCurrentComponent.new(current: @current_forecast, from_cache: @from_cache) %>
         <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
       <% elsif @error %>
         <div class="text-center text-gray-400 py-12 italic text-lg">
@@ -12,7 +12,7 @@
         </div>
       <% else %>
         <div class="text-center text-gray-400 py-12 italic text-lg">
-          Enter a city to get the current weather and forecast!
+          Enter a city in US to get the current weather and forecast!
         </div>
       <% end %>
     <% end %>

@@ -4,7 +4,14 @@
   </div>
   <div class="flex-1 ml-10">
     <div class="text-3xl font-bold mb-2"><%= @current[:weekday] %></div>
-    <div class="text-lg mb-2"><%= @current[:description] %></div>
+    <div class="flex space-x-8 flex-shrink-0 mb-2">
+      <span class="text-lg"><%= @current[:description] %></span>
+      <% if @from_cache %>
+        <span class="inline-block px-3 rounded-full bg-yellow-100 text-yellow-800 font-semibold align-middle">
+          Cached
+        </span>
+      <% end %>
+    </div>
     <div class="flex space-x-8 text-md text-gray-600">
       <div>Humidity: <%= @current[:humidity] %>%</div>
       <div>Wind: <%= @current[:wind] %></div>

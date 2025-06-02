@@ -1,6 +1,6 @@
 <div class="flex items-center justify-start space-x-4 pb-6">
   <%= form_with url: weather_search_path, method: :get, data: { turbo_frame: "forecast" } do |f| %>
-    <%= f.text_field :city, value: @city, placeholder: "Search city...", class: "rounded px-2 py-1 border border-gray-300" %>
+    <%= f.text_field :address, value: @address, placeholder: "Search address...", class: "rounded px-2 py-1 border border-gray-300" %>
     <%= f.submit "Search", class: "ml-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300" %>
   <% end %>
 </div>
