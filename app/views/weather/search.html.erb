@@ -1,7 +1,9 @@
 <%= turbo_frame_tag "forecast" do %>
   <% if @current_forecast %>
-    <%= render ForecastCurrentComponent.new(city: @city, current: @current_forecast, from_cache: @from_cache) %>
-    <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
+    <div data-controller="temperature">
+      <%= render ForecastCurrentComponent.new(city: @city, current: @current_forecast, from_cache: @from_cache) %>
+      <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
+    </div>
   <% elsif @error %>
     <div class="text-center text-gray-400 py-12 italic text-lg">
       <%= @error %>

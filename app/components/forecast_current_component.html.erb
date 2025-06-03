@@ -1,6 +1,6 @@
 <div class="flex flex-col md:flex-row items-center justify-between py-10">
-  <div class="text-8xl font-bold flex-shrink-0 mb-6 md:mb-0" data-controller="temperature">
-    <span data-temperature-target="value"><%= @current[:temp] %></span>°
+  <div class="text-8xl font-bold flex-shrink-0 mb-6 md:mb-0">
+    <span id="<%= @current[:weekday] %>" data-original="<%= @current[:temp] %>" data-temperature-target="value"><span><%= @current[:temp] %></span></span>°
     <span class="ml-2 text-2xl font-semibold">
       <%= link_to "F", "#", class: "underline", data: { action: "temperature#toF", temperature_target: "f" } %> |
       <%= link_to "C", "#", data: { action: "temperature#toC", temperature_target: "c" } %>

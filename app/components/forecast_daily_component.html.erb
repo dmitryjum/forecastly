@@ -6,7 +6,7 @@
         <%= image_tag icon_for(day[:description]), class: "inline h-16 w-16" if day[:description] %>
       </div>
       <div class="text-gray-700 text-sm"><%= day[:description] %></div>
-      <div class="mt-2 text-xl font-bold"><%= day[:temp] %>°</div>
+      <div id="<%= day[:name] %>" data-original="<%= day[:temp] %>" data-temperature-target="value" class="mt-2 text-xl font-bold"><span><%= day[:temp] %></span>°</div>
     </div>
   <% end %>
 </div>
