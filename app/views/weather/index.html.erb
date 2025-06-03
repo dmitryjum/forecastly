@@ -4,15 +4,19 @@
       <h1 class="text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow-sm">Forecastly</h1>
     </header>
     <div class="flex items-center flex-row justify-center md:justify-start space-x-4 pb-6">
-      <%= form_with url: weather_search_path, method: :get, data: { turbo_frame: "forecast" } do |f| %>
+      <%= form_with url: weather_search_path, method: :get, data: { turbo_frame: "forecast", controller: "address-typeahead" } do |f| %>
         <%= f.text_field :address,
          value: @address,
+         list: "address-suggestions",
+         autocompolete: "off", # let the user type a custom address
+         data: { address_typeahead_target: "input", action: "input->address-typeahead#query" },
          placeholder: "Search address...",
          minlength: 2,
          required: true,
-         pattern: "^[A-Za-z0-9\\s,\\.']+$",
+         pattern: "^[A-Za-z0-9\\s,\\.']+$", #don't allow special characters
          title: "Please use letters, numbers, spaces, commas, periods, or apostrophes only.",
          class: "rounded px-2 py-1 border border-gray-300" %>
+         <datalist id="address-suggestions" data-address-typeahead-target="datalist"></datalist>
         <%= f.submit "Search", class: "ml-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300 cursor-pointer" %>
       <% end %>
     </div>
