@@ -19,7 +19,7 @@ Forecastly is a modern Rails 8 application that provides weather forecasts for U
 
 ### Prerequisites
 
-- Ruby 3.3+
+- Ruby 3.4.4+
 - Rails 8+
 - PostgreSQL
 
@@ -88,6 +88,20 @@ The `WeatherFetcher` class encapsulates all logic for retrieving and parsing wea
 * **Geocoder setup:** Geocoder is cached using Rails Solid Cache and it's timeout set for 20 seconds for resilience
 
 ---
+### Work Challenges
+1. **Multi-Database Configuration for Rails 8 on Heroku**
+* Navigating Rails’ multi-database setup (primary, cache, queue, cable) and aligning it with Heroku’s environment and connection URLs.
+* Resolving errors related to missing or misconfigured database roles in production.
+
+2. **Solid Cache and Solid Queue Integration**
+* Understanding how to configure and migrate Solid Cache and Solid Queue, especially when using a single database versus multiple databases.
+* Heroku deployment issues with Solid Cache and Database configuration related to it. Had to find a way to run all the migrations in a single database and play around with database.yml config files to make sure it works and caches correctly in all 3 environments: dev, test, prod (Heroku).
+* Ensuring cache writes/read work correctly in both local and production environments.
+3. **Geocoder Reliability and Error Handling**
+* Handling edge cases where Geocoder returns empty results or times out, and ensuring the user receives a clear error message instead of a spinner or blank state.
+* Configuring Geocoder with proper caching and timeouts for resilience.
+4. **Frontend Responsiveness and UX**
+* Ensuring the UI provides clear feedback for loading and error states
 
 ## Project Structure
 
