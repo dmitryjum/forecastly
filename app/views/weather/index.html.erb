@@ -37,7 +37,7 @@
           <span class="text-black-600 text-lg font-semibold">Loading forecast…</span>
         </div>
       </div>
-      <%= turbo_frame_tag "forecast", data: { "loading-target": "forecast" } do %>
+      <%= turbo_frame_tag "forecast", src: weather_search_path(address: "New York NY"), data: { "loading-target": "forecast" } do %>
         <div class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
           Enter a city in US to get the current weather and forecast!
         </div>
