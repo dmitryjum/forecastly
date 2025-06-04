@@ -1,25 +1,35 @@
-<div class="container min-h-screen flex flex-col items-center">
-  <div class="w-full max-w-4xl mx-auto pt-8">
-    <header class="mb-8 w-full flex justify-center md:justify-start">
-      <h1 class="text-4xl font-extrabold tracking-tight text-blue-700 drop-shadow-sm">Forecastly</h1>
-    </header>
-    <div class="flex items-center flex-row justify-center md:justify-start space-x-4 pb-6">
-      <%= form_with url: weather_search_path, method: :get, data: { turbo_frame: "forecast", controller: "address-typeahead" } do |f| %>
-        <%= f.text_field :address,
-         value: @address,
-         list: "address-suggestions",
-         autocompolete: "off", # let the user type a custom address
-         data: { address_typeahead_target: "input", action: "input->address-typeahead#query" },
-         placeholder: "Search address...",
-         minlength: 2,
-         required: true,
-         pattern: "^[A-Za-z0-9\\s,\\.']+$", #don't allow special characters
-         title: "Please use letters, numbers, spaces, commas, periods, or apostrophes only.",
-         class: "rounded px-2 py-1 border border-gray-300" %>
-         <datalist id="address-suggestions" data-address-typeahead-target="datalist"></datalist>
-        <%= f.submit "Search", class: "ml-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300 cursor-pointer" %>
-      <% end %>
-    </div>
+<section class="container mx-auto px-4 py-12 text-center">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-5xl font-bold text-gray-800 mb-6">Get Weather Forecasts Across the USA</h2>
+    <p class="text-xl text-gray-600 mb-12">
+      Enter a city in the US to get the current weather and 5-day forecast instantly
+    </p>
+
+    <section class="max-w-2xl mx-auto mb-12 shadow-lg border border-gray-200 bg-white/90 backdrop-blur-sm rounded-lg">
+      <div class="p-6">
+        <%= form_with class: "flex flex-col sm:flex-row gap-4", url: weather_search_path, method: :get, data: { turbo_frame: "forecast", controller: "address-typeahead" } do |f| %>
+          <%= f.text_field :address,
+          value: @address,
+          list: "address-suggestions",
+          autocompolete: "off", # let the user type a custom address
+          data: { address_typeahead_target: "input", action: "input->address-typeahead#query" },
+          placeholder: "Enter city name (e.g., New York NY)",
+          minlength: 2,
+          required: true,
+          pattern: "^[A-Za-z0-9\\s,\\.']+$", #don't allow special characters
+          title: "Please use letters, numbers, spaces, commas, periods, or apostrophes only.",
+          class: "w-full sm:flex-1 text-lg py-3 px-4 border-2 border-gray-200 focus:border-blue-500 rounded-lgw-full sm:flex-1 text-lg py-3 px-4 border-2 border-gray-200 focus:border-blue-500 rounded-lg" %>
+          <datalist id="address-suggestions" data-address-typeahead-target="datalist"></datalist>
+          <%= f.submit "Search", class: "bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 px-8 rounded-lg text-lg transition-colors cursor-pointer" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Search
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+
     <div data-controller="loading">
       <div data-loading-target="spinner" class="hidden">
         <div class="flex justify-center items-center py-12">
@@ -28,10 +38,48 @@
         </div>
       </div>
       <%= turbo_frame_tag "forecast", data: { "loading-target": "forecast" } do %>
-        <div class="text-center text-gray-400 py-12 italic text-lg">
+        <div class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
           Enter a city in US to get the current weather and forecast!
         </div>
       <% end %>
     </div>
   </div>
-</div>
+</section>
+
+<section class="bg-white/50 backdrop-blur-sm py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h3 class="text-3xl font-bold text-gray-800 mb-8">Why Choose Forecastly?</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-6">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-800 mb-2">Quick Search</h4>
+          <p class="text-gray-600">Get instant weather results for any US city with our fast search.</p>
+        </div>
+        <div class="p-6">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 011-7.9 6 6 0 0111.9 1A4 4 0 0121 15H6a1 1 0 01-1-1z" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-800 mb-2">Accurate Forecasts</h4>
+          <p class="text-gray-600">Reliable 5-day weather forecasts with detailed conditions.</p>
+        </div>
+        <div class="p-6">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h12M3 8h9M3 16h8" />
+            </svg>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-800 mb-2">Detailed Info</h4>
+          <p class="text-gray-600">Complete weather details including humidity, wind speed, and more.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
