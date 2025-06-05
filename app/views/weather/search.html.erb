@@ -1,15 +1,17 @@
 <%= turbo_frame_tag "forecast" do %>
-  <% if @current_forecast %>
-    <section class="max-w-4xl mx-auto shadow-xl border-0 bg-white/95 backdrop-blur-sm"
-         data-controller="temperature">
-      <div class="p-8">
-        <%= render ForecastCurrentComponent.new(city: @city, current: @current_forecast, from_cache: @from_cache) %>
-        <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
+  <div class="min-h-[478px]">
+    <% if @current_forecast %>
+      <section class="min-h-[478px] max-w-4xl mx-auto shadow-xl border-0 bg-white/95 backdrop-blur-sm"
+            data-controller="temperature">
+        <div class="p-8">
+          <%= render ForecastCurrentComponent.new(city: @city, current: @current_forecast, from_cache: @from_cache) %>
+          <%= render ForecastDailyComponent.new(days: @daily_forecast) %>
+        </div>
+      </section>
+    <% elsif @error %>
+      <div class="min-h-[478px] text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
+        <%= @error %>
       </div>
-    </section>
-  <% elsif @error %>
-    <div class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
-      <%= @error %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% end %>

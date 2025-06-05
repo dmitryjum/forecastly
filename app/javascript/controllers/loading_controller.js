@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["spinner", "forecast"]
+  static targets = ["spinner", "forecast", "placeHolder"]
 
   connect() {
     document.addEventListener("turbo:before-fetch-request", this.show.bind(this))
@@ -14,11 +14,21 @@ export default class extends Controller {
   }
 
   show() {
-    this.spinnerTarget.classList.remove("hidden")
-    this.forecastTarget.innerHTML = ""
+    // this.spinnerTarget.classList.remove("hidden")
+    if (this.hasSpinnerTarget) {
+      this.spinnerTarget.classList.remove("hidden")
+    }
+    // this.forecastTarget.innerHTML = ""
   }
 
   hide() {
-    this.spinnerTarget.classList.add("hidden")
+    // this.spinnerTarget.classList.add("hidden")
+    // this.placeHolderTarget.classList.add("hidden")
+    if (this.hasSpinnerTarget) {
+      this.spinnerTarget.classList.add("hidden")
+    }
+    if (this.hasPlaceHolderTarget) {
+      this.placeHolderTarget.classList.add("hidden")
+    }
   }
 }

@@ -30,19 +30,22 @@
       </div>
     </section>
 
-    <div data-controller="loading">
-      <div data-loading-target="spinner" class="hidden">
-        <div class="flex justify-center items-center py-12">
-          <div class="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent mr-2"></div>
-          <span class="text-black-600 text-lg font-semibold">Loading forecast…</span>
-        </div>
-      </div>
-      <%= turbo_frame_tag "forecast", src: weather_search_path(address: "New York NY"), data: { "loading-target": "forecast" } do %>
-        <div class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
-          Enter a city in US to get the current weather and forecast!
+    <%# <div data-controller="loading"> %>
+      <%= turbo_frame_tag "forecast", src: weather_search_path(address: "New York NY"), data: {"controller" => "loading", "loading-target" => "forecast" } do %>
+        <div class="min-h-[478px] relative">
+          <div data-loading-target="spinner" class="absolute inset-0 flex items-center justify-center bg-white/90">
+            <div class="flex items-center">
+              <div class="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent mr-2"></div>
+              <span class="text-black-600 text-lg font-semibold">Loading forecast…</span>
+            </div>
+          </div>
+
+          <div data-loading-target="placeHolder" class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
+            Enter a city in US to get the current weather and forecast!
+          </div>
         </div>
       <% end %>
-    </div>
+    <%# </div> %>
   </div>
 </section>
 
