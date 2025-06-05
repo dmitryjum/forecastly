@@ -55,7 +55,7 @@ Forecastly is a modern Rails 8 application that provides weather forecasts for U
     Visit http://localhost:3000 in your browser.
 
   ---
-## Running the Test Suit
+## Running the Test Suite
 1. Prepare the test database
     ```sh
     bin/rails db:test:prepare

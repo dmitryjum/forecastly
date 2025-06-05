@@ -14,7 +14,7 @@ class WeatherController < ApplicationController
     end
 
     if result[:error]
-      @city = params[:city]
+      @city = params[:address]
       @current_forecast = nil
       @daily_forecast = nil
       @error = result[:error]

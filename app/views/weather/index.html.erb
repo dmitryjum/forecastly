@@ -11,7 +11,7 @@
           <%= f.text_field :address,
           value: @address,
           list: "address-suggestions",
-          autocompolete: "off", # let the user type a custom address
+          autocomplete: "off", # let the user type a custom address
           data: { address_typeahead_target: "input", action: "input->address-typeahead#query" },
           placeholder: "Enter city name (e.g., New York NY)",
           minlength: 2,
@@ -30,13 +30,13 @@
       </div>
     </section>
 
-    <div data-controller="loading">
-      <div data-loading-target="spinner" class="hidden">
+    <div class="min-h-[1036px] md:min-h-[472px]" data-controller="loading">
+      <template data-loading-target="spinner">
         <div class="flex justify-center items-center py-12">
           <div class="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent mr-2"></div>
           <span class="text-black-600 text-lg font-semibold">Loading forecast…</span>
         </div>
-      </div>
+      </template>
       <%= turbo_frame_tag "forecast", src: weather_search_path(address: "New York NY"), data: { "loading-target": "forecast" } do %>
         <div class="text-center text-gray-600 py-12 italic text-lg font-semibold mx-auto max-w-md md:max-w-none">
           Enter a city in US to get the current weather and forecast!
