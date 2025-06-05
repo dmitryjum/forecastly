@@ -25,6 +25,12 @@ RSpec.describe "WeatherController", type: :request do
     expect(response.body).to include('turbo-frame')
   end
 
+  it "includes a turbo frame tag with default address for lazy loading" do
+    get weather_index_path
+    expect(response.body).to include('turbo-frame data-loading-target="forecast" id="forecast" src="/weather/search?address=New+York+NY"')
+    expect(response.body).to include(weather_search_path(address: "New York NY"))
+  end
+
   it "returns a 200 response and assigns forecasts for a valid address" do
     allow(WeatherFetcher).to receive(:new).with(anything).and_return(double(call: fetcher_result))
 
