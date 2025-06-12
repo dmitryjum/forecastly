@@ -41,6 +41,7 @@ RSpec.describe "WeatherController", type: :request do
     expect(assigns(:daily_forecast)).to eq(fetcher_result[:daily])
     expect(assigns(:from_cache)).to be_falsey
     expect(assigns(:error)).to be_nil
+    expect(Rails.cache.read("weather-fetcher-#{address.parameterize}")).to eq(fetcher_result)
   end
 
   it "reads result from cache if present" do
